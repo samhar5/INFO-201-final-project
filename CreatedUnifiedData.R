@@ -1,5 +1,3 @@
-#Data Cleaning
-
 library(dplyr)
 
 # Read the CSV files
