@@ -16,16 +16,16 @@ result <- mutate(result, CatVariable = catVar[match(result$Protocol, names(catVa
 
 # Create at least one new continuous/numerical variable
 # Calculate average packet size for each dataset
-avgPacketSizeTableOne <- mean(tableOne$Packet.Length)
-avgPacketSizeTableTwo <- mean(tableTwo$Packet.Size)
+avgPacketSizeSecurity <- mean(tableOne$Packet.Length)
+avgPacketSizeThreat <- mean(tableTwo$Packet.Size)
 
 # Calculate average packet size for both tables combined
 avgPacketSizeBothTable <- mean(c(tableOne$Packet.Length, tableTwo$Packet.Size))
 
 # Add the new continuous/numerical variables to the result dataset
 result <- mutate(result,
-                 AvgPacketSizeTableOne = avgPacketSizeTableOne,
-                 AvgPacketSizeTableTwo = avgPacketSizeTableTwo,
+                 AvgPacketSizeSecurity = avgPacketSizeSecurity,
+                 avgPacketSizeThreat = avgPacketSizeThreat,
                  AvgPacketSizeBothTable = avgPacketSizeBothTable
 )
 
