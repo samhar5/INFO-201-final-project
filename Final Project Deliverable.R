@@ -1,3 +1,4 @@
+# Load necessary libraries
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -6,6 +7,7 @@ library(readr)
 # Read the dataset
 cyb_df <- read_csv("Cleaned-Data.csv")
 
+# Define UI components
 tab_danger <- fluidPage(
   h3("How dangerous is each attack?"), 
   h5("Let's take a look at the different attack types and how their severity levels vary."),
@@ -20,13 +22,10 @@ tab_danger <- fluidPage(
         selected = "Phishing"
       ),
       helpText(
-        "Here, you can see that most attacks do have a higher level of severity, although there are some attack
-       types that do have a majority of their attacks on the lower severity side."
+        "Here, you can see that most attacks do have a higher level of severity, although there are some attack types that do have a majority of their attacks on the lower severity side."
       )
     ),
-    
     mainPanel(
-      #graph
       plotOutput(outputId = "malware_sign")
     )
   )
@@ -34,9 +33,8 @@ tab_danger <- fluidPage(
 
 tab_anomaly <- fluidPage(
   h3("Is there a correlation between anomaly score and the severity of an attack?"),
-  h5("Here, we will be focusing on Phishing attacks in particular, as it is the most common attack type and has the most high severity attacks."),
-  h5("An Anomaly Score is the measure of how 'odd' the code of an attack is. That is, it is a measurement of how different or odd the system was acting 
-  from its normal operating behavior."), 
+  h5("Here, we will be focusing on Phishing attacks in particular, as it is an attack type that targets everyone and has the most high severity attacks."),
+  h5("An Anomaly Score is the measure of how 'odd' the code of an attack is. That is, it is a measurement of how different or odd the system was acting from its normal operating behavior."), 
   h5("Choose a severity level below to see the anomaly score distribution."),
   sidebarLayout(
     sidebarPanel(
@@ -56,9 +54,7 @@ tab_anomaly <- fluidPage(
 
 tab_malware <- fluidPage(
   h3("How often is malware detected?"),
-  h5("Are there factors of an attack that correlate to how often the system detects the malware? Here, we will 
-     be looking at how the different factors of an attack, such as its anomaly score and packet size, affect
-     the system's ability to detect it."),
+  h5("Are there factors of an attack that correlate to how often the system detects the malware? Here, we will be looking at how the different factors of an attack, such as its anomaly score and packet size, affect the system's ability to detect it."),
   sidebarLayout(
     sidebarPanel(
       position = "right",
@@ -79,69 +75,73 @@ tab_malware <- fluidPage(
     ),
     mainPanel(
       h3("Malware Detected based on Anomaly Score"),
-      
-      tableOutput(
-        outputId = "phish_anom"
-      ),
-      
+      tableOutput(outputId = "phish_anom"),
       h3("Malware Detected based on Package Size"),
-      
-      tableOutput(
-        outputId = "phish_pckg"
-      )
+      tableOutput(outputId = "phish_pckg")
     )
   ),
   h5("Although the values are very close together, we can see that consistently malware is detected less often.")
 )
+
+tab_summary <- fluidPage(
+  h1("DDOS, the predominant cyber attack"),
+  br(),
+  h3("Nuf Graf:"),
+  p("DDOS ( Distributed Denial-of-service attack) has emerged to be one of the most prevalent cyber threats in our analysis. DDOS works by denying legitimate user access to certain networks by overflowing the bandwidth and processing power to disrupt and limit such networks. This is like a citrual traffic jam where so much traffic so flowing, the user can't enter the correct lanes:"),
+  div(
+    img(src = "https://cf-assets.www.cloudflare.com/slt3lc6tev37/7xwaGxGINeyxavVbrXO6M1/24f139faac6094044adaa84c82394962/ddos_attack_traffic_metaphor.png", 
+        width = 400, height = 300),
+  ),
+  br(),
+  h3("Key Findings:"), 
+  p("Out of the various cyber threats we analyzed such as Phishing Ransomware, Malware, and SQL Injection among others, DDOS attacks were at the highest frequency at approximately 6782 attacks from 2020 to present. Surpassing the rates of other attack types. However, Intrusion and malware were runner up with Intrusion at 6466 and malware at 6752 attacks from 2020 to present. The prevalence of attacks that we can see from malware and intrusion are two of the top three attacks seen in this dataset. It is important to note that all the findings in this data set were the product of self reporting 
+"),
+  h3("Impacts:"),
+  p("Prior to concluding this analysis, we looked into the significance and the impact of cyber attacks.The impact is broader than civilian fraud. It extends to many industries. Affecting healthcare, finance, and more significantly, sectors of technology ."),
+  h2("Cyber attacks: Understanding the prevalence of Cyber Threats"),
+  p("Analysts by: Krishang Bairavarsu, Samuel Harris, Amara Herman"),
+  p("Our Datasets: "),
+  p("https://www.kaggle.com/datasets/zunxhisamniea/cyber-threat-data-for-new-malware-attacks"),
+  p("https://www.kaggle.com/datasets/teamincribo/cyber-security-attacks"),
+  p("Our analysis, sourced from both datasets, focused on the realm of cyber threats, leading us to find that DDOS was presented as the dominant form of cybersecurity attacks. Our analysis aimed to illuminate the critical issue of cyber attack vulnerability and prompt proactive measures to safeguard against these evolving cyber threats."),
+    )
 
 ui <- fluidPage(
   tabsetPanel(
     tabPanel("Introduction", 
              h1("Securing the Digital Frontier: Unraveling Cyber Threats through Data Analysis"),
              p("By: Krishang Bairavarsu, Samuel Harris, Amara Herman"),
-             
-             # Add two images side by side
              div(
                img(src = "https://www.hurix.com/wp-content/uploads/2022/01/Cyber-security.jpg", 
                    width = 400, height = 300),
                img(src = "https://managex.ae/wp-content/uploads/2022/05/What-are-the-seven-types-of-cyber-security-threats-1536x864.jpg", 
                    width = 400, height = 300)
              ),
-             
              h2("The Significance of Cybersecurity"),
-             
              p("In an increasingly interconnected world driven by technological advancements, the significance of cybersecurity cannot be overlooked. While technology brings countless benefits and innovations to our lives, it also produces new risks and vulnerabilities that can jeopardize the safety and privacy of individuals and organizations."),
-             
-             p("In our ongoing journey through the digital age, our lives have become more intertwined with technology than ever before. As a result, it is important to safeguard the vast amount of data we generate and exchange daily."),
-             
              p("Each one of us possesses data that holds significant value, known as Sensitive Personally Identifiable Information (SPII). This SPII encompasses a wide range of sensitive details, such as Social Security Numbers, credit card information, and medical records, among others. This information is stored on both local devices and the online platforms we rely on daily. While efforts have been made to secure this data on dedicated servers, the internet is teeming with individuals and groups seeking to exploit any vulnerabilities and gain unauthorized access."),
-             
              p("These threat actors use various hacking techniques, including distributed denial of service (DDoS) attacks, phishing attempts, malware distribution, and more. Once they have this information, they can use it for a variety of illegal acts, such as financial extortion and identity theft. This is where the significance of cybersecurity and its protective measures truly comes to the forefront."),
-             
              h2("Our Project"),
-             
              p("Our project researches further into these cyber threats, delving into the various attacks targeting businesses and individuals alike. The goal of our project is to examine various datasets, gaining insights into the most common cyber attacks hackers employ and understanding their severity. By gaining a better understanding of these attack vectors, our goal is to not only educate others on potential cyber threats but to also effectively predict and mitigate potential risks in the ever-evolving realm of cybersecurity."),
-             
-             # Add a link for further exploration
              p("Explore our datasets in detail:"),
-             p("Dataset 1:https://www.kaggle.com/datasets/zunxhisamniea/cyber-threat-data-for-new-malware-attacks."),
-             p("Dataset 2:https://www.kaggle.com/datasets/teamincribo/cyber-security-attacks."
-             )
+             p("Dataset 1: https://www.kaggle.com/datasets/zunxhisamniea/cyber-threat-data-for-new-malware-attacks."),
+             p("Dataset 2: https://www.kaggle.com/datasets/teamincribo/cyber-security-attacks.")
     ),
     tabPanel("Bar Chart", 
              h3("About the Bar Charts:"),
              p("The bar charts below provide visual insights into the distribution of cyber attacks."),
              p("The first chart represents the top 3 most popular attack types in recent years, while the second chart displays other common attack types."),
-             
              plotOutput(outputId = "bar_chart_attack_type"),
              plotOutput(outputId = "bar_chart_target_variable")
     ),
     tabPanel("How Dangerous is an Attack?", tab_danger),
     tabPanel("How Severe is Weird?", tab_anomaly),
-    tabPanel("Malware Detection", tab_malware)
+    tabPanel("Malware Detection", tab_malware),
+    tabPanel("Summary", tab_summary)
   )
 )
 
+# Define server function
 server <- function(input, output) {
   output$bar_chart_attack_type <- renderPlot({
     count_df_attack_type <- as.data.frame(table(cyb_df$Attack.Type))
@@ -165,7 +165,7 @@ server <- function(input, output) {
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
   })
   
-output$malware_sign <- renderPlot({
+  output$malware_sign <- renderPlot({
     malw_df <- filter(cyb_df, Target.Variable  == input$malw_type, Target.Variable != "NA") %>% group_by(Target.Variable) %>% count(Severity.Level)
     malw_df$Severity.Level <- factor(malw_df$Severity.Level, levels = c("Low", "Medium", "High"))  
     
@@ -217,7 +217,7 @@ output$malware_sign <- renderPlot({
     
     phish_df2
   })
-  
 }
+
 
 shinyApp(ui = ui, server = server)
